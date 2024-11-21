@@ -84,6 +84,12 @@ def Matrotation3DZ(angle):
         (sin(angle),cos(angle),0),
         (0,0,1))
 
+def Matrotation3D(angle1,angle2,angle3):
+    return prodMatMat3D(Matrotation3DY(angle1),prodMatMat3D(Matrotation3DX(angle2),Matrotation3DZ(angle3)))
+
+def Matrotation3DUnique(angle):
+    return Matrotation3D(angle,angle,angle)
+
 dessin  = svgwrite.Drawing('exercice_1.svg', size=(800,600))
 
 # carré
@@ -225,10 +231,9 @@ triangles=[0,1,2,0,2,3]
 # compose(points_proj,cube)
 
 # faire tourner, grandir et translater plusieurs fois les points en 3D
+points = [prodMatVect3D(Matrotation3D(pi/24,pi/24,0),sommet) for sommet in points]
 for i in range(10):
-    points_rot = [prodMatVect3D(Matrotation3DY((pi*i)/12),sommet) for sommet in points]
-    points_rot = [prodMatVect3D(Matrotation3DX((pi*i)/12),sommet) for sommet in points_rot]
-    points_rot = [prodMatVect3D(Matrotation3DZ((pi*i)/12),sommet) for sommet in points_rot]
+    points_rot = [prodMatVect3D(Matrotation3DUnique((pi*i)/12),sommet) for sommet in points]
     points_rot = [prodMatVect3D(Matdilatation3D(0.8**i),sommet) for sommet in points_rot]
     points_rot = [translation(sommet, (75*i+100,200,0)) for sommet in points_rot]
     points_proj = [ projection(sommet) for sommet in points_rot ]
