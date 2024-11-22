@@ -33,6 +33,8 @@ glm::mat4 proj;
 glm::mat4 model;
 glm::mat4 mvp;
 
+float r = 0.0f;
+
 // Identifiant des tableaux passés à la carte graphique.
 unsigned int vaoids[ 1 ];
 
@@ -51,7 +53,7 @@ void display()
   // L'origine du repère est déplacée à -5 suivant l'axe z.
   view = glm::translate( glm::mat4( 1.0f ) , glm::vec3( 0.0f, 0.0f, -5.0f ) );
 
-  model = glm::rotate( glm::mat4( 1.0f ), glm::radians( 60.0f ), glm::vec3( 1.0f, 0.0f, 1.0f ) );
+  model = glm::rotate( glm::mat4( 1.0f ), glm::radians( r ), glm::vec3( 1.0f, 0.0f, 1.0f ) );
 
   // Calcul de la matrice mvp.
   mvp = proj * view * model;
@@ -224,6 +226,13 @@ void initShaders()
   mvpid = glGetUniformLocation( progid, "mvp" );
 }
 
+void idle()
+{
+  // Incrémentation de l'angle de rotation.
+  r >= 360.0f ? r = 0.0f : r += 0.1f;
+  // Ré-affichage de la scène.
+  glutPostRedisplay();
+}
 
 int main( int argc, char * argv[] )
 { //glewInit();
@@ -263,6 +272,8 @@ int main( int argc, char * argv[] )
   // Couleur par défaut pour nettoyer le buffer d'affichage.
   glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
   glEnable( GL_DEPTH_TEST );
+
+  glutIdleFunc( idle );
 
   // Lancement de la boucle de rendu.
    glutMainLoop();
