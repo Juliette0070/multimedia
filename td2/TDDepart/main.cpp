@@ -30,6 +30,7 @@ unsigned int mvpid;
 // Matrices de transformation.
 glm::mat4 view;
 glm::mat4 proj;
+glm::mat4 model;
 glm::mat4 mvp;
 
 // Identifiant des tableaux passés à la carte graphique.
@@ -45,19 +46,22 @@ void display()
 
   // Nettoyage du buffer d'affichage par la couleur par défaut.
   glClear( GL_COLOR_BUFFER_BIT );
+  glClear( GL_DEPTH_BUFFER_BIT );
 
   // L'origine du repère est déplacée à -5 suivant l'axe z.
   view = glm::translate( glm::mat4( 1.0f ) , glm::vec3( 0.0f, 0.0f, -5.0f ) );
 
+  model = glm::rotate( glm::mat4( 1.0f ), glm::radians( 60.0f ), glm::vec3( 1.0f, 0.0f, 1.0f ) );
+
   // Calcul de la matrice mvp.
-  mvp = proj * view;
+  mvp = proj * view * model;
 
   // Passage de la matrice mvp au shader (envoi vers la carte graphique).
   glUniformMatrix4fv( mvpid , 1, GL_FALSE, &mvp[0][0]);
 
   // Dessin de 1 triangle à partir de 3 indices.
   glBindVertexArray( vaoids[ 0 ] );
-  glDrawElements( GL_TRIANGLES, 3, GL_UNSIGNED_SHORT, 0 );
+  glDrawElements( GL_TRIANGLES, 3*2*6, GL_UNSIGNED_SHORT, 0 );
 
   glutSwapBuffers();
 }
@@ -87,21 +91,44 @@ void initVAOs()
 
   // Points du maillage.
   std::vector< float > vertices = {
-    -0.5f,  0.0f,  0.0f,
-     0.0f,  0.5f,  0.0f,
-     0.5f,  0.0f,  0.0f
+    0.5f, -0.5f, 0.5f,
+    -0.5f, 0.5f,  0.5f,
+    0.5f,  0.5f,  0.5f,
+    -0.5f, -0.5f, 0.5f,
+    0.5f,  -0.5f, -0.5f,
+    -0.5f, 0.5f,  -0.5f,
+    0.5f,  0.5f,  -0.5f,
+    -0.5f, -0.5f, -0.5f,
   };
 
   // Couleurs du maillage.
   std::vector< float > colors = {
     1.0f, 0.0f, 0.0f,
     1.0f, 1.0f, 0.0f,
-    0.0f, 1.0f, 1.0f
+    0.0f, 1.0f, 1.0f,
+
+    1.0f, 0.0f, 0.0f,
+    1.0f, 1.0f, 0.0f,
+    0.0f, 1.0f, 1.0f,
+
+    1.0f, 0.0f, 0.0f,
+    1.0f, 1.0f, 0.0f
   };
 
   // Indices du maillage.
   std::vector< unsigned short > indices = {
-    0, 1, 2
+    0,1,2,
+    0,3,1,
+    4,5,6,
+    4,7,5,
+    0,2,6,
+    0,6,4,
+    1,7,5,
+    1,3,7,
+    2,1,5,
+    2,5,6,
+    0,4,7,
+    0,7,3
   };
 
   // Génération d'un Vertex Array Object (VAO) contenant 3 Vertex Buffer Objects.
@@ -235,6 +262,7 @@ int main( int argc, char * argv[] )
 
   // Couleur par défaut pour nettoyer le buffer d'affichage.
   glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
+  glEnable( GL_DEPTH_TEST );
 
   // Lancement de la boucle de rendu.
    glutMainLoop();
