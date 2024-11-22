@@ -31,6 +31,7 @@ unsigned int mvpid;
 glm::mat4 view;
 glm::mat4 proj;
 glm::mat4 model;
+glm::mat4 model2;
 glm::mat4 mvp;
 
 float r = 0.0f;
@@ -63,6 +64,12 @@ void display()
 
   // Dessin de 1 triangle à partir de 3 indices.
   glBindVertexArray( vaoids[ 0 ] );
+  glDrawElements( GL_TRIANGLES, 3*2*6, GL_UNSIGNED_SHORT, 0 );
+
+  // Rotation du cube comme pour model mais avec une translation
+  model2 = glm::translate( glm::mat4( 1.0f ), glm::vec3( 0.0f, 0.0f, 1.0f ) );
+  mvp = proj * view * model2;
+  glUniformMatrix4fv( mvpid , 1, GL_FALSE, &mvp[0][0]);
   glDrawElements( GL_TRIANGLES, 3*2*6, GL_UNSIGNED_SHORT, 0 );
 
   glutSwapBuffers();
@@ -130,7 +137,7 @@ void initVAOs()
     2,1,5,
     2,5,6,
     0,4,7,
-    0,7,3
+    0,7,3,
   };
 
   // Génération d'un Vertex Array Object (VAO) contenant 3 Vertex Buffer Objects.
@@ -229,7 +236,7 @@ void initShaders()
 void idle()
 {
   // Incrémentation de l'angle de rotation.
-  r >= 360.0f ? r = 0.0f : r += 0.1f;
+  r >= 360.0f ? r = 0.0f : r += 0.5f;
   // Ré-affichage de la scène.
   glutPostRedisplay();
 }
@@ -273,6 +280,7 @@ int main( int argc, char * argv[] )
   glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
   glEnable( GL_DEPTH_TEST );
 
+  // Faire tourner le cube.
   glutIdleFunc( idle );
 
   // Lancement de la boucle de rendu.
