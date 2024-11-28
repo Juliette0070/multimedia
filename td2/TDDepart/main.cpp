@@ -32,6 +32,9 @@ glm::mat4 view;
 glm::mat4 proj;
 glm::mat4 model;
 glm::mat4 model2;
+glm::mat4 model3;
+glm::mat4 model4;
+glm::mat4 model5;
 glm::mat4 mvp;
 
 float r = 0.0f;
@@ -52,23 +55,46 @@ void display()
   glClear( GL_DEPTH_BUFFER_BIT );
 
   // L'origine du repère est déplacée à -5 suivant l'axe z.
-  view = glm::translate( glm::mat4( 1.0f ) , glm::vec3( 0.0f, 0.0f, -5.0f ) );
+  view = glm::translate( glm::mat4( 1.0f ) , glm::vec3( 0.0f, 0.0f, -10.0f ) );
 
-  model = glm::rotate( glm::mat4( 1.0f ), glm::radians( r ), glm::vec3( 1.0f, 0.0f, 1.0f ) );
-
+  model = glm::rotate( glm::mat4( 1.0f ), glm::radians( r ), glm::vec3( 0.0f, 1.0f, 0.0f ) );
   // Calcul de la matrice mvp.
   mvp = proj * view * model;
-
   // Passage de la matrice mvp au shader (envoi vers la carte graphique).
   glUniformMatrix4fv( mvpid , 1, GL_FALSE, &mvp[0][0]);
-
   // Dessin de 1 triangle à partir de 3 indices.
   glBindVertexArray( vaoids[ 0 ] );
   glDrawElements( GL_TRIANGLES, 3*2*6, GL_UNSIGNED_SHORT, 0 );
 
-  // Rotation du cube comme pour model mais avec une translation
-  model2 = glm::translate( glm::mat4( 1.0f ), glm::vec3( 0.0f, 0.0f, 1.0f ) );
+  // Cube 2 : rotation autour de l'axe y et translation de 3 unités suivant l'axe x.
+  model2 = glm::rotate( glm::mat4( 1.0f ), glm::radians( r ), glm::vec3( 0.0f, 1.0f, 0.0f ) );
+  model2 = glm::translate( model2, glm::vec3( 3.0f, 0.0f, 0.0f ) );
   mvp = proj * view * model2;
+  glUniformMatrix4fv( mvpid , 1, GL_FALSE, &mvp[0][0]);
+  glDrawElements( GL_TRIANGLES, 3*2*6, GL_UNSIGNED_SHORT, 0 );
+
+  // Cube 3 : rotation autour de l'axe y et translation de 3 unités suivant l'axe x.
+  // model3 = glm::rotate( glm::mat4( 1.0f ), glm::radians( r ), glm::vec3( 0.0f, 0.0f, 0.0f ) );
+  model3 = glm::translate( glm::mat4( 1.0f ), glm::vec3( 0.0f, 3.0f, 0.0f ) );
+  mvp = proj * view * model3;
+  glUniformMatrix4fv( mvpid , 1, GL_FALSE, &mvp[0][0]);
+  glDrawElements( GL_TRIANGLES, 3*2*6, GL_UNSIGNED_SHORT, 0 );
+
+  // Cube 4 : rotation autour de l'axe y et translation de 3 unités suivant l'axe x.
+  model4 = glm::rotate( glm::mat4( 1.0f ), glm::radians( r ), glm::vec3( 0.0f, 1.0f, 0.0f ) );
+  model4 = glm::scale(model4, glm::vec3(0.5f, 0.5f, 0.5f));
+  model4 = glm::translate( model4, glm::vec3( 0.0f, 6.0f, 4.0f ) );
+  model4 = glm::rotate( model4, glm::radians( 2*r ), glm::vec3( 0.0f, 1.0f, 0.0f ) );
+  mvp = proj * view * model4;
+  glUniformMatrix4fv( mvpid , 1, GL_FALSE, &mvp[0][0]);
+  glDrawElements( GL_TRIANGLES, 3*2*6, GL_UNSIGNED_SHORT, 0 );
+
+  // Cube 5 : rotation autour de l'axe y et translation de 3 unités suivant l'axe x.
+  model5 = glm::rotate( glm::mat4( 1.0f ), glm::radians( r ), glm::vec3( 0.0f, 1.0f, 0.0f ) );
+  model5 = glm::scale(model5, glm::vec3(0.5f, 0.5f, 0.5f));
+  model5 = glm::translate( model5, glm::vec3( 0.0f, 6.0f, 4.0f ) );
+  model5 = glm::rotate( model5, glm::radians( 2*r ), glm::vec3( 0.0f, 1.0f, 0.0f ) );
+  mvp = proj * view * model5;
   glUniformMatrix4fv( mvpid , 1, GL_FALSE, &mvp[0][0]);
   glDrawElements( GL_TRIANGLES, 3*2*6, GL_UNSIGNED_SHORT, 0 );
 
@@ -236,7 +262,8 @@ void initShaders()
 void idle()
 {
   // Incrémentation de l'angle de rotation.
-  r >= 360.0f ? r = 0.0f : r += 0.5f;
+  // r >= 360.0f ? r = 0.0f : r += 0.5f;
+  r += 1.0f;
   // Ré-affichage de la scène.
   glutPostRedisplay();
 }
@@ -281,7 +308,7 @@ int main( int argc, char * argv[] )
   glEnable( GL_DEPTH_TEST );
 
   // Faire tourner le cube.
-  glutIdleFunc( idle );
+  glutIdleFunc(idle);
 
   // Lancement de la boucle de rendu.
    glutMainLoop();
