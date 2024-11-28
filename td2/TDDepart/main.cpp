@@ -74,7 +74,6 @@ void display()
   glDrawElements( GL_TRIANGLES, 3*2*6, GL_UNSIGNED_SHORT, 0 );
 
   // Cube 3 : rotation autour de l'axe y et translation de 3 unités suivant l'axe x.
-  // model3 = glm::rotate( glm::mat4( 1.0f ), glm::radians( r ), glm::vec3( 0.0f, 0.0f, 0.0f ) );
   model3 = glm::translate( glm::mat4( 1.0f ), glm::vec3( 0.0f, 3.0f, 0.0f ) );
   mvp = proj * view * model3;
   glUniformMatrix4fv( mvpid , 1, GL_FALSE, &mvp[0][0]);
@@ -90,10 +89,11 @@ void display()
   glDrawElements( GL_TRIANGLES, 3*2*6, GL_UNSIGNED_SHORT, 0 );
 
   // Cube 5 : rotation autour de l'axe y et translation de 3 unités suivant l'axe x.
-  model5 = glm::rotate( glm::mat4( 1.0f ), glm::radians( r ), glm::vec3( 0.0f, 1.0f, 0.0f ) );
-  model5 = glm::scale(model5, glm::vec3(0.5f, 0.5f, 0.5f));
-  model5 = glm::translate( model5, glm::vec3( 0.0f, 6.0f, 4.0f ) );
-  model5 = glm::rotate( model5, glm::radians( 2*r ), glm::vec3( 0.0f, 1.0f, 0.0f ) );
+  model5 = glm::scale(glm::mat4( 1.0f ), glm::vec3(0.75f, 0.75f, 0.75f));
+  model5 = glm::translate( model5, glm::vec3( 0.0f, 4.0f, 0.0f ) );
+  model5 = glm::rotate( model5, glm::radians( 2*r ), glm::vec3( 1.0f, 0.0f, 0.0f ) );
+  model5 = glm::translate( model5, glm::vec3( 0.0f, 2.0f, 0.0f ) );
+  model5 = glm::rotate( model5, glm::radians( 5*r ), glm::vec3( -1.0f, 0.0f, 0.0f ) );
   mvp = proj * view * model5;
   glUniformMatrix4fv( mvpid , 1, GL_FALSE, &mvp[0][0]);
   glDrawElements( GL_TRIANGLES, 3*2*6, GL_UNSIGNED_SHORT, 0 );
