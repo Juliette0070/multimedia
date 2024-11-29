@@ -11,6 +11,8 @@ in vec3 in_pos;
 
 void main(void)
 {
+  // in_pos = in_pos * scale;
+
   // calcul de la position du point une fois toutes les transformations appliquées
   gl_Position = mvp * vec4( in_pos, 1.0 );
 }
