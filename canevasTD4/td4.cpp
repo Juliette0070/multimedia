@@ -52,6 +52,11 @@ void display()
 
     // Le repère subit une rotation suivant l'axe z.
     view = glm::rotate( view, glm::degrees( angle ), glm::vec3( 1.0f, 0.0f, 0.0f ) );
+    
+    // Le triangle est agrandi *2
+
+    int nb = 2;
+    view = glm::scale( view, glm::vec3( nb, nb, nb ) );
 
     // Calcul de la matrice mvp.
     mvp = proj * view;
@@ -251,7 +256,7 @@ void initShaders()
     std::string log;
 
     std::ifstream vs_ifs( concat(MY_SHADER_PATH, "/shaders/basic.vert.glsl") );
-   std::ifstream fs_ifs( concat(MY_SHADER_PATH, "/shaders/basic.frag.glsl") );
+    std::ifstream fs_ifs( concat(MY_SHADER_PATH, "/shaders/basic.frag.glsl") );
 
 
     auto begin = vs_ifs.tellg();
