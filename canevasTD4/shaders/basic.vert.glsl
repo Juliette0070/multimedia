@@ -9,10 +9,18 @@ uniform mat4 mvp;
 // chaque point possède une position 3D
 in vec3 in_pos;
 
+out vec3 color;
+
 void main(void)
 {
-  // in_pos = in_pos * scale;
+  // définir la scale à 2.0
+  float scale = 2.0;
+
+  // Ajouter un décalage pour les points avec x > 0
+  vec3 offset = (in_pos.x > 0.0) ? vec3(1.0, 0.0, 0.0) : vec3(0.0, 0.0, 0.0);
 
   // calcul de la position du point une fois toutes les transformations appliquées
-  gl_Position = mvp * vec4( in_pos, 1.0 );
+  gl_Position = mvp * vec4( in_pos * scale + offset, 1.0 );
+
+  color = vec3( 1.0, 0.0, 0.0 );
 }
