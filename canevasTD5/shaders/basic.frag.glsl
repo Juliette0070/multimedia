@@ -33,5 +33,15 @@ void main( void )
     float intensity = max(dot(L,N),0.0);
     // frag_color = vec4(intensity,intensity,intensity, 1.0);
 
-    frag_color = toonify(intensity);
+    // frag_color = toonify(intensity);
+
+    // vec4 final_color =vec4(0.2,0.2,0.2, 1.0);
+    // final_color +=0.6*intensity;
+    // frag_color = final_color;
+
+    vec3 E = normalize(eyeVec);
+    vec3 R = reflect(-L, N);
+    float specular = pow(max(dot(R, E), 0.0),2);
+    vec4 final_color= vec4(0.8,0.2,0.5,1.0)*specular;
+    frag_color = final_color;
 }
