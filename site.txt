@@ -1,1 +1,3 @@
 https://webem.iuto.ovh/opengl/TD4/index.html
+
+mkdir b; cd b; cmake ..; make; make check
