@@ -1,2 +1,2 @@
-SimpleTest 83 0.190794
+SimpleTest 93 0.0154884
 ---

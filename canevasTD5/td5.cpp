@@ -154,7 +154,8 @@ void initVAOs()
 {
     unsigned int vboids[ 4 ];
 
-    std::ifstream ifs( concat(MY_SHADER_PATH, "/meshes/rabbit.off" ));
+    // std::ifstream ifs( concat(MY_SHADER_PATH, "/meshes/rabbit.off" ));
+    std::ifstream ifs( concat(MY_SHADER_PATH, "/meshes/space_shuttle2.off" ));
     if (!ifs)
     {
         throw std::runtime_error("can't find the meshe!! Check the name and the path of this file? ");
