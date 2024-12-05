@@ -10,13 +10,13 @@ in vec3 out_normal;
 
 void main( void )
 {
-    frag_color =  color*-1;
+    // frag_color =  color*-1;
     // frag_color = vec4( mod(ceil(gl_FragCoord.x/30)+ceil(gl_FragCoord.y/10), 2), 0.0, 0.0, 1.0 );
     // frag_color = vec4( pow(cos(gl_FragCoord.x*0.02),2.0), 0.0, 0.0, 1.0 );
 
-    // vec3 L = normalize(lightDir);
-    // vec3 N = normalize(out_normal);
+    vec3 L = normalize(lightDir);
+    vec3 N = normalize(out_normal);
 
-    // float intensity = max(dot(L,N),0.0);
-    // frag_color = vec4(intensity,intensity,intensity, 1.0);
+    float intensity = max(dot(L,N),0.0);
+    frag_color = vec4(intensity,intensity,intensity, 1.0);
 }

@@ -78,12 +78,13 @@ void display()
     
     // tester aussi:  (quelle différence?)
     //rep.trace_repere(proj*  view *rot);
-    rep.trace_repere(proj*  view);
-    
-    
-    
+    // rep.trace_repere(proj*  view);
     
     glUseProgram( progid );// Choix du shader à appliquer.
+    
+    glUniformMatrix4fv(glGetUniformLocation(progid, "m"), 1, GL_FALSE, &model[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(progid, "v"), 1, GL_FALSE, &view[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(progid, "p"), 1, GL_FALSE, &proj[0][0]);
     
     glUniformMatrix4fv( mvpid , 1, GL_FALSE, &mvp[0][0]);// Passage de la matrice mvp au shader.
 
