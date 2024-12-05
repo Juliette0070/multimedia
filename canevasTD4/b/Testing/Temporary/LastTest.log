@@ -1,23 +1,18 @@
-Start testing: Dec 05 10:29 CET
+Start testing: Dec 05 10:40 CET
 ----------------------------------------------------------
 1/1 Testing: SimpleTest
 1/1 Test: SimpleTest
 Command: "/home/iut45/Etudiants/o22202319/Documents/multimedia/canevasTD4/b/td"
 Directory: /home/iut45/Etudiants/o22202319/Documents/multimedia/canevasTD4/b
-"SimpleTest" start time: Dec 05 10:29 CET
+"SimpleTest" start time: Dec 05 10:40 CET
 Output:
 ----------------------------------------------------------
-Error: vertex shader compilation failed.
-0:25(2): error: `frag_pos' undeclared
-0:25(2): error: value of type vec3 cannot be assigned to variable of type error
-
-
 <end of output>
-Test time =   1.84 sec
+Test time =  33.43 sec
 ----------------------------------------------------------
 Test Passed.
-"SimpleTest" end time: Dec 05 10:29 CET
-"SimpleTest" time elapsed: 00:00:01
+"SimpleTest" end time: Dec 05 10:41 CET
+"SimpleTest" time elapsed: 00:00:33
 ----------------------------------------------------------
 
-End testing: Dec 05 10:29 CET
+End testing: Dec 05 10:41 CET

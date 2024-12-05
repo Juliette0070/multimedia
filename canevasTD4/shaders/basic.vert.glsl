@@ -11,8 +11,6 @@ in vec3 in_pos;
 
 out vec3 color;
 
-out vec3 frag_pos;
-
 void main(void)
 {
   // définir la scale à 2.0
@@ -23,6 +21,4 @@ void main(void)
 
   // calcul de la position du point une fois toutes les transformations appliquées
   gl_Position = mvp * vec4( in_pos * scale + offset, 1.0 );
-
-  frag_pos = in_pos;
 }
