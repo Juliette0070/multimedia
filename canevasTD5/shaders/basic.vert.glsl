@@ -24,6 +24,7 @@ void main(void)
     // calcul de la position du point une fois toutes les transformations appliquées
 
     gl_Position = p*v*m * vec4(in_pos, 1.0);
+    // gl_Position = p*v*m * (vec4(in_pos, 1.0)+0.1*random(in_pos.xy));
 
     vec4 vVertex = v*m * vec4(in_pos, 1.0);
     eyeVec = -vVertex.xyz;
@@ -33,5 +34,5 @@ void main(void)
 
     // out_normal = in_normal;
     // out_normal = vec3(v*m * vec4(in_normal, 0.0));
-    out_normal = vec3(v*m*vec4(in_normal.x+0.5*random(in_pos.xy),in_normal.y+0.5*random(in_pos.xz),in_normal.z+0.5*random(in_pos.yz), 0.0));
+    out_normal = vec3(v*m*vec4(in_normal.x+0.2*random(in_pos.xy),in_normal.y+0.2*random(in_pos.xz),in_normal.z+0.2*random(in_pos.yz), 0.0));
 }

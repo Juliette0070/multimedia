@@ -155,7 +155,8 @@ void initVAOs()
     unsigned int vboids[ 4 ];
 
     // std::ifstream ifs( concat(MY_SHADER_PATH, "/meshes/rabbit.off" ));
-    std::ifstream ifs( concat(MY_SHADER_PATH, "/meshes/space_shuttle2.off" ));
+    // std::ifstream ifs( concat(MY_SHADER_PATH, "/meshes/space_shuttle2.off" ));
+    std::ifstream ifs( concat(MY_SHADER_PATH, "/meshes/milleniumfalcon.off" ));
     if (!ifs)
     {
         throw std::runtime_error("can't find the meshe!! Check the name and the path of this file? ");
@@ -428,7 +429,7 @@ glutInitContextVersion( 3, 2 );
 #endif
 
     glEnable(GL_DEPTH_TEST);
-check_gl_error();
+    check_gl_error();
     initShaders();
     check_gl_error();
     initVAOs();
