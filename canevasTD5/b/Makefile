@@ -57,10 +57,12 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/iut45/Etudiants/o22202319/Documents/multimedia/canevasTD5
+# CMAKE_SOURCE_DIR = /home/iut45/Etudiants/o22202319/Documents/multimedia/canevasTD5
+CMAKE_SOURCE_DIR = /home/juju/Desktop/multimedia/canevasTD5
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/iut45/Etudiants/o22202319/Documents/multimedia/canevasTD5/b
+# CMAKE_BINARY_DIR = /home/iut45/Etudiants/o22202319/Documents/multimedia/canevasTD5/b
+CMAKE_BINARY_DIR = /home/juju/Desktop/multimedia/canevasTD5/b
 
 #=============================================================================
 # Targets provided globally by CMake.
