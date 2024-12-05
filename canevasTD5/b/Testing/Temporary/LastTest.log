@@ -1,19 +1,19 @@
-Start testing: Dec 05 14:59 CET
+Start testing: Dec 05 15:25 CET
 ----------------------------------------------------------
 1/1 Testing: SimpleTest
 1/1 Test: SimpleTest
 Command: "/home/iut45/Etudiants/o22202319/Documents/multimedia/canevasTD5/b/td"
 Directory: /home/iut45/Etudiants/o22202319/Documents/multimedia/canevasTD5/b
-"SimpleTest" start time: Dec 05 14:59 CET
+"SimpleTest" start time: Dec 05 15:25 CET
 Output:
 ----------------------------------------------------------
 1782380.00359496
 <end of output>
-Test time =   2.02 sec
+Test time =   4.85 sec
 ----------------------------------------------------------
 Test Passed.
-"SimpleTest" end time: Dec 05 14:59 CET
-"SimpleTest" time elapsed: 00:00:02
+"SimpleTest" end time: Dec 05 15:25 CET
+"SimpleTest" time elapsed: 00:00:04
 ----------------------------------------------------------
 
-End testing: Dec 05 14:59 CET
+End testing: Dec 05 15:25 CET

@@ -145,6 +145,34 @@ void special( int key, int x, int y )
         case GLUT_KEY_DOWN:
             eye[ 2 ] += 0.1f;
             break;
+        case GLUT_KEY_PAGE_DOWN:
+            eye[ 1 ] -= 0.1f;
+            break;
+        case GLUT_KEY_PAGE_UP:
+            eye[ 1 ] += 0.1f;
+            break;
+    }
+    glutPostRedisplay();
+}
+
+void keyboard(unsigned char key, int x, int y) {
+    switch (key) {
+        case 'q':
+        case 'Q': // Ajoutez les deux cas si vous voulez gérer les majuscules/minuscules
+            angle += 0.01f;
+            break;
+        case 's':
+        case 'S':
+            angle -= 0.01f;
+            break;
+        case 'e':
+        case 'E':
+            scale += 0.0001f;
+            break;
+        case 'd':
+        case 'D':
+            scale -= 0.0001f;
+            break;
     }
     glutPostRedisplay();
 }
@@ -422,6 +450,7 @@ glutInitContextVersion( 3, 2 );
     glutReshapeFunc( reshape );
     glutIdleFunc( idle );
     glutSpecialFunc( special );
+    glutKeyboardFunc(keyboard); // Assigner la gestion des touches classiques
 
     // Initialisation de la bibliothèque GLEW.
 #if not defined(__APPLE__)
