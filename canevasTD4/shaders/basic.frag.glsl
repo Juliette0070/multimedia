@@ -7,5 +7,5 @@ in vec4 gl_FragCoord;
 
 void main(void)
 {
-  frag_color = vec4( sin(gl_FragCoord.x/5), 0.0, 0.0, 1.0 );
+  frag_color = vec4( sin(gl_FragCoord.x/5+5), sin(gl_FragCoord.x/5), 0.0, 1.0 );
 }
