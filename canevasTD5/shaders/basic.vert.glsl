@@ -24,7 +24,7 @@ void main(void)
     vec4 vVertex = v*m * vec4(in_pos, 1.0);
     eyeVec = -vVertex.xyz;
 
-    vec4 LightSource_position=vec4(0.0,0.0,10.0,0.0);
+    vec4 LightSource_position=vec4(10.0,0.0,0.0,0.0)*m*v;
     lightDir=vec3(LightSource_position.xyz - vVertex.xyz);
 
     out_normal = in_normal;
