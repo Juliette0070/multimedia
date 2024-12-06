@@ -145,12 +145,6 @@ void special( int key, int x, int y )
         case GLUT_KEY_DOWN:
             eye[ 2 ] += 0.1f;
             break;
-        case GLUT_KEY_PAGE_DOWN:
-            eye[ 1 ] -= 0.1f;
-            break;
-        case GLUT_KEY_PAGE_UP:
-            eye[ 1 ] += 0.1f;
-            break;
     }
     glutPostRedisplay();
 }
@@ -158,12 +152,12 @@ void special( int key, int x, int y )
 void keyboard(unsigned char key, int x, int y) {
     switch (key) {
         case 'q':
-        case 'Q': // Ajoutez les deux cas si vous voulez gérer les majuscules/minuscules
-            angle += 0.01f;
+        case 'Q':
+            angle += 0.001f;
             break;
         case 's':
         case 'S':
-            angle -= 0.01f;
+            angle -= 0.001f;
             break;
         case 'e':
         case 'E':
@@ -172,6 +166,18 @@ void keyboard(unsigned char key, int x, int y) {
         case 'd':
         case 'D':
             scale -= 0.0001f;
+            break;
+        case 'r':
+        case 'R':
+            eye[ 1 ] += 0.1f;
+            break;
+        case 'f':
+        case 'F':
+            eye[ 1 ] -= 0.1f;
+            break;
+        // espace
+        case 32:
+            angle = 0.0f;
             break;
     }
     glutPostRedisplay();
