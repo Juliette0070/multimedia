@@ -165,7 +165,8 @@ void keyboard(unsigned char key, int x, int y) {
             break;
         case 'd':
         case 'D':
-            scale -= 0.0001f;
+            if (scale > 0.0f)
+                scale -= 0.0001f;
             break;
         case 'r':
         case 'R':
