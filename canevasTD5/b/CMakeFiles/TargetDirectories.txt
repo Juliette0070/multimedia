@@ -1,5 +1,0 @@
-/home/juju/Desktop/multimedia/canevasTD5/b/CMakeFiles/td.dir
-/home/juju/Desktop/multimedia/canevasTD5/b/CMakeFiles/check.dir
-/home/juju/Desktop/multimedia/canevasTD5/b/CMakeFiles/test.dir
-/home/juju/Desktop/multimedia/canevasTD5/b/CMakeFiles/edit_cache.dir
-/home/juju/Desktop/multimedia/canevasTD5/b/CMakeFiles/rebuild_cache.dir
