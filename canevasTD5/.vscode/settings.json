@@ -1,6 +1,11 @@
 {
     "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
-        "*.glsl": "cpp"
+        "*.glsl": "cpp",
+        "cmath": "cpp",
+        "array": "cpp",
+        "string_view": "cpp",
+        "initializer_list": "cpp",
+        "string": "cpp"
     }
 }
