@@ -74,13 +74,6 @@ float x, y, z;
 std::array< float, 3 > eye = { 0.0f, 0.0f, 5.0f };
 
 
-void updateVars(){
-    for (int i = 0; i < NBMESHES; i++)
-    {
-        maillages[i].angle = angle;
-    }
-}
-
 void displayMesh(maillage m, glm::mat4 model)
 {
     model = glm::rotate( model, angle, glm::vec3( 0.0f, 1.0f, 0.0f ) );
@@ -148,8 +141,6 @@ void idle()
 //
 //    scale += inc;
 
-    updateVars();
-
     glutPostRedisplay();
 }
 
@@ -187,23 +178,19 @@ void keyboard(unsigned char key, int x, int y) {
         case 'q':
         case 'Q':
             angle += 0.1f;
-            updateVars();
             break;
         case 's':
         case 'S':
             angle -= 0.1f;
-            updateVars();
             break;
         case 'e':
         case 'E':
             scale += 0.0001f;
-            updateVars();
             break;
         case 'd':
         case 'D':
             if (scale > 0.0f)
                 scale -= 0.0001f;
-                updateVars();
             break;
         case 'r':
         case 'R':
@@ -216,7 +203,6 @@ void keyboard(unsigned char key, int x, int y) {
         // espace
         case 32:
             angle = 0.0f;
-            updateVars();
             break;
     }
     glutPostRedisplay();

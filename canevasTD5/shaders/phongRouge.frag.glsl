@@ -17,6 +17,6 @@ void main( void )
     vec3 E = normalize(eyeVec);
     vec3 R = reflect(-L, N);
     float specular = pow(max(dot(R, E), 0.0),2);
-    final_color += vec4(0.8,0.8,0.8,1.0)*specular;
+    final_color += vec4(0.8,0.0,0.0,1.0)*specular;
     frag_color = final_color;
 }
