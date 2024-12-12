@@ -28,7 +28,6 @@
 repere rep(1.0);
 
 unsigned int progid;
-unsigned int mvpid;
 
 // Matrices 4x4 contenant les transformations.
 glm::mat4 model;
@@ -85,8 +84,6 @@ void display()
     glUniformMatrix4fv(glGetUniformLocation(progid, "m"), 1, GL_FALSE, &model[0][0]);
     glUniformMatrix4fv(glGetUniformLocation(progid, "v"), 1, GL_FALSE, &view[0][0]);
     glUniformMatrix4fv(glGetUniformLocation(progid, "p"), 1, GL_FALSE, &proj[0][0]);
-    
-    glUniformMatrix4fv( mvpid , 1, GL_FALSE, &mvp[0][0]);// Passage de la matrice mvp au shader.
 
     glBindVertexArray( vaoids[ 0 ] );//Choix du vao
 
@@ -389,6 +386,7 @@ void initShaders()
     fs_ifs.read( &fs[0], size );
 
     vsid = glCreateShader( GL_VERTEX_SHADER );
+    
     char const * vs_char = vs.c_str();
     glShaderSource( vsid, 1, &vs_char, nullptr );
     glCompileShader( vsid );
@@ -430,8 +428,6 @@ void initShaders()
     glLinkProgram( progid );
 
     glUseProgram( progid );
-
-    mvpid = glGetUniformLocation( progid, "mvp" );
 }
 
 
