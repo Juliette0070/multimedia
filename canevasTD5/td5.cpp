@@ -36,7 +36,7 @@ struct shaderProg
   unsigned int vid;
   unsigned int pid;
   unsigned int LightID;
-}shaders[NBMESHES];
+} shaders[NBMESHES];
 
 
 struct maillage
@@ -51,64 +51,61 @@ struct maillage
 
 } maillages[NBMESHES];
 
+unsigned int progid;
+unsigned int pid;
+unsigned int vid;
+unsigned int mid;
+
+// Matrices 4x4 contenant les transformations.
+glm::mat4 model;
+glm::mat4 view;
+glm::mat4 proj;
+
+float angle = 0.0f;
+float scale = 0.0f;
+float inc = 0.1f;
+
+unsigned int vaoids[1];
+
+unsigned int nbtriangles;
+
+float x, y, z;
+
 std::array< float, 3 > eye = { 0.0f, 0.0f, 5.0f };
+
+
+void updateVars(){
+    for (int i = 0; i < NBMESHES; i++)
+    {
+        maillages[i].angle = angle;
+    }
+}
 
 void displayMesh(maillage m, glm::mat4 model)
 {
+    model = glm::rotate( model, angle, glm::vec3( 0.0f, 1.0f, 0.0f ) );
+    model = glm::scale( model, glm::vec3( m.scale ) );
+    model = glm::translate( model, glm::vec3( -m.x, -m.y, -m.z ) );
     glUseProgram( m.shader.progid );// Choix du shader à appliquer.
     
-    glUniformMatrix4fv(glGetUniformLocation(m.shader.progid, "m"), 1, GL_FALSE, &model[0][0]);
-    glUniformMatrix4fv(glGetUniformLocation(m.shader.progid, "v"), 1, GL_FALSE, &view[0][0]);
-    glUniformMatrix4fv(glGetUniformLocation(m.shader.progid, "p"), 1, GL_FALSE, &proj[0][0]);
-    
-    glUniformMatrix4fv( m.shader.mid , 1, GL_FALSE, &mvp[0][0]);// Passage de la matrice mvp au shader.
+    glUniformMatrix4fv(m.shader.mid, 1, GL_FALSE, &model[0][0]);
+    glUniformMatrix4fv(m.shader.vid, 1, GL_FALSE, &view[0][0]);
+    glUniformMatrix4fv(m.shader.pid, 1, GL_FALSE, &proj[0][0]);
 
     glBindVertexArray( m.vaoids );//Choix du vao
 
     glDrawElements( GL_TRIANGLES, m.nbtriangles*3, GL_UNSIGNED_INT, 0 );
+    glBindVertexArray( 0 );
 
     check_gl_error(); // pour le debugage d'openGL
-}
-
-void display1()
-{
-    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-    //glPolygonMode(GL_FRONT_AND_BACK,GL_LINE);
-    // Positionnement de la caméra en ( 0.0f, 0.0f, 5.0f ),
-    // on regarde en direction du point ( 0.0f, 0.0f, 0.0f ),
-    // la tête est orienté suivant vers le haut l'axe y ( 0.0f, 1.0f, 0.0f ).
-    view = glm::lookAt( glm::vec3( eye[ 0 ], eye[ 1 ], eye[ 2 ] ), glm::vec3( eye[ 0 ], eye[ 1 ], eye[ 2 ]-1.0 ), glm::vec3( 0.0f, 1.0f, 0.0f ) );
-    // initialisation de la matrice de modelisation
-    model = glm::mat4( 1.0f );
-    // On recale le maillage à l'origine du repère
-    model = glm::translate( glm::mat4( 1.0f ), glm::vec3( -x, -y, -z ) ) * model;
-    // Le modèle est mis à l'échelle
-    model = glm::scale(  glm::mat4( 1.0f ), glm::vec3( scale*3.5 ) ) * model ;
-    // Le modele subit une rotation suivant l'axe z.
-    glm::mat4 rot=glm::rotate( glm::mat4( 1.0f ), glm::degrees( angle ), glm::vec3( 0.0f, 1.0f, 0.0f ) );
-    model = glm::rotate( glm::mat4( 1.0f ), glm::degrees( angle ), glm::vec3( 0.0f, 1.0f, 0.0f ) ) * model;
-    // Calcul de la matrice mvp.
-    mvp = proj * view * model;
-    // tester aussi:  (quelle différence?)
-    //rep.trace_repere(proj*  view *rot);
-    // rep.trace_repere(proj*  view);
-    glUseProgram( progid );// Choix du shader à appliquer.
-    glUniformMatrix4fv(glGetUniformLocation(progid, "m"), 1, GL_FALSE, &model[0][0]);
-    glUniformMatrix4fv(glGetUniformLocation(progid, "v"), 1, GL_FALSE, &view[0][0]);
-    glUniformMatrix4fv(glGetUniformLocation(progid, "p"), 1, GL_FALSE, &proj[0][0]);
-    glUniformMatrix4fv( mvpid , 1, GL_FALSE, &mvp[0][0]);// Passage de la matrice mvp au shader.
-    glBindVertexArray( vaoids[ 0 ] );//Choix du vao
-    glDrawElements( GL_TRIANGLES, nbtriangles*3, GL_UNSIGNED_INT, 0 );
-    check_gl_error(); // pour le debugage d'openGL
-    glutSwapBuffers();
 }
 
 void display()
 {
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
     view = glm::lookAt( glm::vec3( eye[ 0 ], eye[ 1 ], eye[ 2 ] ),
-    glm::vec3( eye[ 0 ], eye[ 1 ], eye[ 2 ]-1.0f ),
-    glm::vec3( 0.0f, 1.0f, 0.0f ) );
+                        glm::vec3( eye[ 0 ], eye[ 1 ], eye[ 2 ]-1.0f ),
+                        glm::vec3( 0.0f, 1.0f, 0.0f ) );
 
     float decal=1.25f;
 
@@ -134,7 +131,7 @@ void display()
 
 void idle()
 {
-    angle += 0.0001f;
+    angle += 0.01f;
     if( angle >= 360.0f )
     {
         angle = 0.0f;
@@ -150,6 +147,8 @@ void idle()
 //    }
 //
 //    scale += inc;
+
+    updateVars();
 
     glutPostRedisplay();
 }
@@ -187,20 +186,24 @@ void keyboard(unsigned char key, int x, int y) {
     switch (key) {
         case 'q':
         case 'Q':
-            angle += 0.001f;
+            angle += 0.1f;
+            updateVars();
             break;
         case 's':
         case 'S':
-            angle -= 0.001f;
+            angle -= 0.1f;
+            updateVars();
             break;
         case 'e':
         case 'E':
             scale += 0.0001f;
+            updateVars();
             break;
         case 'd':
         case 'D':
             if (scale > 0.0f)
                 scale -= 0.0001f;
+                updateVars();
             break;
         case 'r':
         case 'R':
@@ -213,13 +216,14 @@ void keyboard(unsigned char key, int x, int y) {
         // espace
         case 32:
             angle = 0.0f;
+            updateVars();
             break;
     }
     glutPostRedisplay();
 }
 
 
-void initVAOs( unsigned int & progid, const std::string & filename )
+maillage initVAOs( shaderProg shader, const std::string filename )
 {
     unsigned int vboids[ 4 ];
 
@@ -229,7 +233,6 @@ void initVAOs( unsigned int & progid, const std::string & filename )
         throw std::runtime_error("can't find the meshe!! Check the name and the path of this file? ");
     }
 
-    
     std::string off;
 
     unsigned int nbpoints, tmp;
@@ -249,7 +252,6 @@ void initVAOs( unsigned int & progid, const std::string & filename )
 
     for( unsigned int i = 0 ; i < vertices.size() ; ++i) {
         ifs >> vertices[ i ];
-
     }
 
     for( unsigned int i = 0 ; i < nbtriangles ; ++i) {
@@ -385,10 +387,19 @@ void initVAOs( unsigned int & progid, const std::string & filename )
     glEnableVertexAttribArray( normal );
     check_gl_error();
     glBindVertexArray( 0 );
+    maillage m = {
+        shader,
+        vaoids[0],
+        nbtriangles,
+        0.0f,
+        scale,
+        0.1f,
+        x, y, z};
+    return m;
 }
 
 
-void initShaders(const std::string vertex_shader, const std::string fragment_shader)
+shaderProg initShaders(const std::string vertex_shader, const std::string fragment_shader)
 {
     unsigned int vsid, fsid;
     int status;
@@ -397,8 +408,6 @@ void initShaders(const std::string vertex_shader, const std::string fragment_sha
 
     std::ifstream vs_ifs( MY_SHADER_PATH + vertex_shader );
     std::ifstream fs_ifs( MY_SHADER_PATH + fragment_shader );
-
-
 
     auto begin = vs_ifs.tellg();
     vs_ifs.seekg( 0, std::ios::end );
@@ -463,7 +472,17 @@ void initShaders(const std::string vertex_shader, const std::string fragment_sha
 
     glUseProgram( progid );
 
-    mvpid = glGetUniformLocation( progid, "mvp" );
+    mid = glGetUniformLocation(progid, "m");
+    vid = glGetUniformLocation(progid, "v");
+    pid = glGetUniformLocation(progid, "p");
+
+    shaderProg shader = {
+        progid,
+        mid,
+        vid,
+        pid,
+    };
+    return shader;
 }
 
 
