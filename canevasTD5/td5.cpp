@@ -116,7 +116,6 @@ void display()
 
     model = glm::mat4( 1.0f );
     model = glm::translate( model, glm::vec3( decal, -decal, 0.0f ) );
-    model = glm::scale(   model, glm::vec3( 0.70f) );
     displayMesh(maillages[3], model);
 
     glutSwapBuffers();
