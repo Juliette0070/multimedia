@@ -25,6 +25,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include <sys/timeb.h>
+
 repere rep(1.0);
 
 #define NBMESHES 4
@@ -61,7 +63,7 @@ glm::mat4 model;
 glm::mat4 view;
 glm::mat4 proj;
 
-// float angle = 0.0f;
+float angle = 0.0f;
 float scale = 0.0f;
 float inc = 0.1f;
 
@@ -72,6 +74,73 @@ unsigned int nbtriangles;
 float x, y, z;
 
 std::array< float, 3 > eye = { 0.0f, 0.0f, 5.0f };
+
+
+int lastTime=0;
+double elapsed;
+
+const float YAW         = -1.5707963f; //-90deg
+const float PITCH       =  0.0f;
+const float SPEED       =  0.0f;
+
+float yawRate = 0.0f;
+float pitchRate = 0.0f;
+
+
+struct camera
+{
+    glm::vec3 Position={ 0.0f, 0.0f, 5.0f };
+    glm::vec3 Front={ 0.0f, 0.0f, -1.0f };
+    glm::vec3 Up;
+    glm::vec3 Right;
+    glm::vec3 WorldUp={ 0.0f, 1.0f, 0.0f };;
+    // euler Angles
+    float Yaw=YAW;
+    float Pitch=PITCH;
+    // camera options
+    float MovementSpeed=SPEED;
+} globalcamera;
+
+int getMilliCount(){
+    timeb tb;
+    ftime(&tb);
+    int nCount = tb.millitm + (tb.time & 0xfffff) * 1000;
+    return nCount;
+}
+
+int getMilliSpan(int nTimeStart){
+    int nSpan = getMilliCount() - nTimeStart;
+    if(nSpan < 0)
+        nSpan += 0x100000 * 1000;
+    return nSpan;
+}
+
+void updateCameraVectors(camera *mycamera)
+{
+    // calculate the new Front vector
+    glm::vec3 front;
+    front.x = cos(mycamera->Yaw) * cos(mycamera->Pitch);
+    front.y = sin(mycamera->Pitch);
+    front.z = sin(mycamera->Yaw) * cos(mycamera->Pitch);
+    mycamera->Front = glm::normalize(front);
+    // also re-calculate the Right and Up vector
+    mycamera->Right = glm::normalize(glm::cross(mycamera->Front, mycamera->WorldUp));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
+    mycamera->Up    = glm::normalize(glm::cross(mycamera->Right, mycamera->Front));
+}
+
+void  calcTime() {
+    if (lastTime != 0) {
+        elapsed = double(getMilliSpan(lastTime))/1000.0;
+        globalcamera.Yaw += yawRate * elapsed;
+        globalcamera.Pitch += pitchRate * elapsed;
+        updateCameraVectors(&globalcamera);
+        if (globalcamera.MovementSpeed != 0) {
+            float velocity = globalcamera.MovementSpeed * elapsed;
+            globalcamera.Position += globalcamera.Front * velocity;
+        }
+    }
+    lastTime=getMilliCount();
+}
 
 
 void displayMesh(maillage m, glm::mat4 model)
@@ -98,9 +167,11 @@ void displayMesh(maillage m, glm::mat4 model)
 void display()
 {
     glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
-    view = glm::lookAt( glm::vec3( eye[ 0 ], eye[ 1 ], eye[ 2 ] ),
-                        glm::vec3( eye[ 0 ], eye[ 1 ], eye[ 2 ]-1.0f ),
-                        glm::vec3( 0.0f, 1.0f, 0.0f ) );
+    // view = glm::lookAt( glm::vec3( eye[ 0 ], eye[ 1 ], eye[ 2 ] ),
+    //                     glm::vec3( eye[ 0 ], eye[ 1 ], eye[ 2 ]-1.0f ),
+    //                     glm::vec3( 0.0f, 1.0f, 0.0f ) );
+
+    view = glm::lookAt(globalcamera.Position, globalcamera.Position + globalcamera.Front, globalcamera.Up);
 
     float decal=1.25f;
 
@@ -164,15 +235,35 @@ void special( int key, int x, int y )
     {
         case GLUT_KEY_LEFT:
             eye[ 0 ] -= 0.1f;
+            globalcamera.Position -= globalcamera.Right * globalcamera.MovementSpeed;
             break;
         case GLUT_KEY_RIGHT:
             eye[ 0 ] += 0.1f;
+            globalcamera.Position += globalcamera.Right * globalcamera.MovementSpeed;
             break;
         case GLUT_KEY_UP:
             eye[ 2 ] -= 0.1f;
+            globalcamera.Position += globalcamera.Front * globalcamera.MovementSpeed;
             break;
         case GLUT_KEY_DOWN:
             eye[ 2 ] += 0.1f;
+            globalcamera.Position -= globalcamera.Front * globalcamera.MovementSpeed;
+            break;
+    }
+    glutPostRedisplay();
+}
+
+void specialUp( int key, int x, int y )
+{
+    switch( key )
+    {
+        case GLUT_KEY_LEFT:
+            break;
+        case GLUT_KEY_RIGHT:
+            break;
+        case GLUT_KEY_UP:
+            break;
+        case GLUT_KEY_DOWN:
             break;
     }
     glutPostRedisplay();
@@ -188,7 +279,7 @@ void keyboard(unsigned char key, int x, int y) {
         case 's':
         case 'S':
             // angle -= 0.1f;
-            for (int i = 0; i < NBMESHES; i++){maillages[i].angle -= 0.05f;}
+            for (int i = 0; i < NBMESHES; i++){maillages[i].angle -= 0.10f;}
             break;
         // case 'e':
         // case 'E':
@@ -211,6 +302,20 @@ void keyboard(unsigned char key, int x, int y) {
         case 32:
             // angle = 0.0f;
             for (int i = 0; i < NBMESHES; i++){maillages[i].angle = 0.0f;}
+            break;
+        case 'w':
+        case 'W':
+            yawRate = inc;
+            break;
+        case 'x':
+        case 'X':
+            yawRate = -inc;
+            break;
+        case 'a':
+        case 'A':
+            break;
+        case 'z':
+        case 'Z':
             break;
     }
     glutPostRedisplay();
@@ -502,6 +607,7 @@ glutInitContextVersion( 3, 2 );
     glutReshapeFunc( reshape );
     glutIdleFunc( idle );
     glutSpecialFunc( special );
+    glutSpecialUpFunc(specialUp);
     glutKeyboardFunc(keyboard); // Assigner la gestion des touches classiques
 
     // Initialisation de la bibliothèque GLEW.
