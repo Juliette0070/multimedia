@@ -77,6 +77,8 @@ std::array< float, 3 > eye = { 0.0f, 0.0f, 5.0f };
 void displayMesh(maillage m, glm::mat4 model)
 {
     model = glm::rotate( model, m.angle, glm::vec3( 0.0f, 1.0f, 0.0f ) );
+    model = glm::rotate( model, m.angle, glm::vec3( 0.0f, 0.0f, 1.0f ) );
+    model = glm::rotate( model, m.angle, glm::vec3( 1.0f, 0.0f, 0.0f ) );
     model = glm::scale( model, glm::vec3( m.scale ) );
     model = glm::translate( model, glm::vec3( -m.x, -m.y, -m.z ) );
     glUseProgram( m.shader.progid );// Choix du shader à appliquer.
