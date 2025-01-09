@@ -61,7 +61,7 @@ glm::mat4 model;
 glm::mat4 view;
 glm::mat4 proj;
 
-float angle = 0.0f;
+// float angle = 0.0f;
 float scale = 0.0f;
 float inc = 0.1f;
 
@@ -76,7 +76,7 @@ std::array< float, 3 > eye = { 0.0f, 0.0f, 5.0f };
 
 void displayMesh(maillage m, glm::mat4 model)
 {
-    model = glm::rotate( model, angle, glm::vec3( 0.0f, 1.0f, 0.0f ) );
+    model = glm::rotate( model, m.angle, glm::vec3( 0.0f, 1.0f, 0.0f ) );
     model = glm::scale( model, glm::vec3( m.scale ) );
     model = glm::translate( model, glm::vec3( -m.x, -m.y, -m.z ) );
     glUseProgram( m.shader.progid );// Choix du shader à appliquer.
@@ -123,11 +123,15 @@ void display()
 
 void idle()
 {
-    angle += 0.01f;
-    if( angle >= 360.0f )
-    {
-        angle = 0.0f;
+    for (int i = 0; i < NBMESHES; i++){
+        maillages[i].angle += 0.01f;
+        if (maillages[i].angle >= 360.0f){maillages[i].angle = 0.0f;}
     }
+    // angle += 0.01f;
+    // if( angle >= 360.0f )
+    // {
+    //     angle = 0.0f;
+    // }
 
 //    if( scale <= 0.0f )
 //    {
@@ -176,21 +180,23 @@ void keyboard(unsigned char key, int x, int y) {
     switch (key) {
         case 'q':
         case 'Q':
-            angle += 0.1f;
+            // angle += 0.1f;
+            for (int i = 0; i < NBMESHES; i++){maillages[i].angle += 0.05f;}
             break;
         case 's':
         case 'S':
-            angle -= 0.1f;
+            // angle -= 0.1f;
+            for (int i = 0; i < NBMESHES; i++){maillages[i].angle -= 0.05f;}
             break;
-        case 'e':
-        case 'E':
-            scale += 0.0001f;
-            break;
-        case 'd':
-        case 'D':
-            if (scale > 0.0f)
-                scale -= 0.0001f;
-            break;
+        // case 'e':
+        // case 'E':
+        //     scale += 0.0001f;
+        //     break;
+        // case 'd':
+        // case 'D':
+        //     if (scale > 0.0f)
+        //         scale -= 0.0001f;
+        //     break;
         case 'r':
         case 'R':
             eye[ 1 ] += 0.1f;
@@ -201,7 +207,8 @@ void keyboard(unsigned char key, int x, int y) {
             break;
         // espace
         case 32:
-            angle = 0.0f;
+            // angle = 0.0f;
+            for (int i = 0; i < NBMESHES; i++){maillages[i].angle = 0.0f;}
             break;
     }
     glutPostRedisplay();
