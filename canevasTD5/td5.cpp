@@ -73,7 +73,7 @@ unsigned int nbtriangles;
 
 float x, y, z;
 
-std::array< float, 3 > eye = { 0.0f, 0.0f, 5.0f };
+// std::array< float, 3 > eye = { 0.0f, 0.0f, 5.0f };
 
 
 int lastTime=0;
@@ -91,9 +91,9 @@ struct camera
 {
     glm::vec3 Position={ 0.0f, 0.0f, 5.0f };
     glm::vec3 Front={ 0.0f, 0.0f, -1.0f };
-    glm::vec3 Up;
-    glm::vec3 Right;
-    glm::vec3 WorldUp={ 0.0f, 1.0f, 0.0f };;
+    glm::vec3 Up = { 0.0f, 1.0f, 0.0f };
+    glm::vec3 Right = { 1.0f, 0.0f, 0.0f };
+    glm::vec3 WorldUp={ 0.0f, 1.0f, 0.0f };
     // euler Angles
     float Yaw=YAW;
     float Pitch=PITCH;
@@ -196,6 +196,7 @@ void display()
 
 void idle()
 {
+    calcTime();
     for (int i = 0; i < NBMESHES; i++){
         maillages[i].angle += 0.01f;
         if (maillages[i].angle >= 360.0f){maillages[i].angle = 0.0f;}
@@ -234,19 +235,19 @@ void special( int key, int x, int y )
     switch( key )
     {
         case GLUT_KEY_LEFT:
-            eye[ 0 ] -= 0.1f;
+            // eye[ 0 ] -= 0.1f;
             globalcamera.Position -= globalcamera.Right * globalcamera.MovementSpeed;
             break;
         case GLUT_KEY_RIGHT:
-            eye[ 0 ] += 0.1f;
+            // eye[ 0 ] += 0.1f;
             globalcamera.Position += globalcamera.Right * globalcamera.MovementSpeed;
             break;
         case GLUT_KEY_UP:
-            eye[ 2 ] -= 0.1f;
+            // eye[ 2 ] -= 0.1f;
             globalcamera.Position += globalcamera.Front * globalcamera.MovementSpeed;
             break;
         case GLUT_KEY_DOWN:
-            eye[ 2 ] += 0.1f;
+            // eye[ 2 ] += 0.1f;
             globalcamera.Position -= globalcamera.Front * globalcamera.MovementSpeed;
             break;
     }
@@ -292,11 +293,11 @@ void keyboard(unsigned char key, int x, int y) {
         //     break;
         case 'r':
         case 'R':
-            eye[ 1 ] += 0.1f;
+            // eye[ 1 ] += 0.1f;
             break;
         case 'f':
         case 'F':
-            eye[ 1 ] -= 0.1f;
+            // eye[ 1 ] -= 0.1f;
             break;
         // espace
         case 32:
@@ -628,6 +629,9 @@ glutInitContextVersion( 3, 2 );
 
     shaders[3]=initShaders("/shaders/phong.vert.glsl","/shaders/phongRouge.frag.glsl");
     maillages[3]=initVAOs(shaders[3],"/meshes/rabbit.off");
+
+    calcTime();
+
     check_gl_error();
     rep.init();
     check_gl_error();
