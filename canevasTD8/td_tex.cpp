@@ -187,34 +187,34 @@ void initVAOs()
     
     std::vector< float > texcoords = {
         0.0, 0.0f,
-        0.0, 1.0f,
-        1.0f, 0.0f,
-        1.0f, 1.0f,
+        0.0, 2.0f,
+        2.0f, 0.0f,
+        2.0f, 2.0f,
 
         0.0, 0.0f,
-        0.0, 1.0f,
-        1.0f, 0.0f,
-        1.0f, 1.0f,
+        0.0, 2.0f,
+        2.0f, 0.0f,
+        2.0f, 2.0f,
 
         0.0, 0.0f,
-        0.0, 1.0f,
-        1.0f, 0.0f,
-        1.0f, 1.0f,
+        0.0, 2.0f,
+        2.0f, 0.0f,
+        2.0f, 2.0f,
 
         0.0, 0.0f,
-        0.0, 1.0f,
-        1.0f, 0.0f,
-        1.0f, 1.0f,
+        0.0, 2.0f,
+        2.0f, 0.0f,
+        2.0f, 2.0f,
 
         0.0, 0.0f,
-        0.0, 1.0f,
-        1.0f, 0.0f,
-        1.0f, 1.0f,
+        0.0, 2.0f,
+        2.0f, 0.0f,
+        2.0f, 2.0f,
 
         0.0, 0.0f,
-        0.0, 1.0f,
-        1.0f, 0.0f,
-        1.0f, 1.0f,
+        0.0, 2.0f,
+        2.0f, 0.0f,
+        2.0f, 2.0f,
      };
 
   
@@ -389,6 +389,8 @@ void initTextures()
   glBindTexture( GL_TEXTURE_2D, texture[0] );
   unsigned int tex = glGetUniformLocation(progid, "tex");
   glUniform1i(tex, 0);
+  glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
+  glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
   glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
   glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img.rows, img.cols, 0, GL_BGRA,GL_UNSIGNED_BYTE,img.data);
@@ -430,7 +432,7 @@ glutInitContextVersion( 3, 2 );
     initShaders();
     initVAOs();
 initTextures();
-    // uncube.init();
+    uncube.init();
     
     glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
 
