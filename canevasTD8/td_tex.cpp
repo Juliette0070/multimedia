@@ -116,13 +116,33 @@ void initVAOs()
       0.5,-0.5,0.5,  // pointinital: 2   nouveau point: 1
       -0.5,0.5,0.5,  // pointinital: 1   nouveau point: 2
       0.5,0.5,0.5,  // pointinital: 3   nouveau point: 3
+
       0.5,-0.5,-0.5,  // pointinital: 6   nouveau point: 4
       -0.5,-0.5,-0.5,  // pointinital: 4   nouveau point: 5
       0.5,0.5,-0.5,  // pointinital: 7   nouveau point: 6
       -0.5,0.5,-0.5,  // pointinital: 5   nouveau point: 7
+
       0.5,-0.5,0.5,  // pointinital: 2   nouveau point: 8
       0.5,-0.5,-0.5,  // pointinital: 6   nouveau point: 9
       0.5,0.5,0.5,  // pointinital: 3   nouveau point: 10
+
+      0.5,0.5,-0.5,  // pointinital: 7   nouveau point: 11
+
+      -0.5,-0.5,-0.5,  // pointinital: 4   nouveau point: 12
+      -0.5,-0.5,0.5,  // pointinital: 0   nouveau point: 13
+      -0.5,0.5,-0.5,  // pointinital: 5   nouveau point: 14
+      -0.5,0.5,0.5,  // pointinital: 1   nouveau point: 15
+
+      0.5,0.5,0.5,  // pointinital: 3   nouveau point: 16
+      0.5,0.5,-0.5,  // pointinital: 7   nouveau point: 17
+      -0.5,0.5,0.5,  // pointinital: 1   nouveau point: 18
+      -0.5,0.5,-0.5,  // pointinital: 5   nouveau point: 19
+
+      -0.5,-0.5,0.5,  // pointinital: 0   nouveau point: 20
+      -0.5,-0.5,-0.5,  // pointinital: 4   nouveau point: 21
+      0.5,-0.5,0.5,  // pointinital: 2   nouveau point: 22
+      0.5,-0.5,-0.5,  // pointinital: 6   nouveau point: 23
+
       
   };
     
@@ -167,27 +187,74 @@ void initVAOs()
     
   
     
+  //   std::vector< float > texcoords = {
+  //       0.0f, 0.f,
+  //       0.0f, 1.f,
+  //       1.0f, 0.0f,
+  //       1.f, 1.f,
+        
+  //       0.0f, 0.f,
+  //       0.0f, 1.f,
+  //       1.0f, 0.0f,
+  //       1.f, 1.f,
+        
+  //       0.0f, 0.f,
+  //       0.0f, 1.f,
+  //       1.0f, 0.0f,
+  //       1.f, 1.f,
+        
+  //  // ajouter les coordonnées de texture pour les 3 faces manquantes
+
+  //       0.0f, 0.f,
+  //       0.0f, 1.f,
+  //       1.0f, 0.0f,
+  //       1.f, 1.f,
+
+  //       0.0f, 0.f,
+  //       0.0f, 1.f,
+  //       1.0f, 0.0f,
+  //       1.f, 1.f,
+
+  //       0.0f, 0.f,
+  //       0.0f, 1.f,
+  //       1.0f, 0.0f,
+  //       1.f, 1.f,
+  //    };
+    
     std::vector< float > texcoords = {
-        0.0f, 0.f,
-        0.0f, 1.f,
-        1.0f, 0.0f,
-        1.f, 1.f,
-        
-        0.0f, 0.f,
-        0.0f, 1.f,
-        1.0f, 0.0f,
-        1.f, 1.f,
-        
-        0.0f, 0.f,
-        0.0f, 1.f,
-        1.0f, 0.0f,
-        1.f, 1.f,
-        
-   // ajouter les coordonnées de texture pour les 3 faces manquantes
+        0.25f, 0.0f,
+        0.25f, 0.25f,
+        0.5f, 0.0f,
+        0.5f, 0.25f,
+
+        0.25f, 0.5f,
+        0.25f, 0.75f,
+        0.5f, 0.5f,
+        0.5f, 0.75f,
+
+        0.5f, 0.25f,
+        0.5f, 0.5f,
+        0.75f, 0.25f,
+        0.75f, 0.5f,
+
+        0.0f, 0.25f,
+        0.0f, 0.5f,
+        0.25f, 0.25f,
+        0.25f, 0.5,
+
+        0.25f, 0.75f,
+        0.25f, 1.0f,
+        0.5f, 0.75f,
+        0.5f, 1.0f,
+
+        0.25f, 0.25f,
+        0.25f, 0.5f,
+        0.5f, 0.25f,
+        0.5f, 0.5f,
      };
 
   
-    std::vector< unsigned short > indices = {0,1,2,1,2,3,4,5,6,5,6,7,8,9,10,};
+    std::vector< unsigned short > indices = {0,1,2,1,2,3,4,5,6,5,6,7,8,9,10,9,10,11,12,13,14,13,14,15,16,17,18,17,18,19,20,21,22,21,22,23};
     size=indices.size();
 
      
@@ -331,7 +398,8 @@ void initTextures()
 {
   
     
-  cv::Mat img = cv::imread(  MY_RES_PATH+ (std::string )"/res/images/logoIUT.png", cv::IMREAD_UNCHANGED );
+  // cv::Mat img = cv::imread(  MY_RES_PATH+ (std::string )"/res/images/logoIUT.png", cv::IMREAD_UNCHANGED );
+  cv::Mat img = cv::imread(  MY_RES_PATH+ (std::string )"/res/images/numbers.png", cv::IMREAD_UNCHANGED );
  
   unsigned int texture[1];
 
@@ -381,7 +449,7 @@ glutInitContextVersion( 3, 2 );
     initShaders();
     initVAOs();
 initTextures();
-    uncube.init();
+    // uncube.init();
     
     glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
 
