@@ -393,14 +393,31 @@ void initShaders()
     
 }
 
+GLubyte checkImage0[256][256][4];
+void makeCheckImage(void){
+  GLubyte c;
+  int cellSize = 256/32;
+  for(int i=0; i<256; i++)
+    for(int j=0; j<256; j++) {
+      // c = ((((i&0x20)==0)^((j&0x20))==0))*255;
+      c = ((((i / cellSize) & 1) ^ ((j / cellSize) & 1)) == 0) ? 255 : 0;
+      checkImage0[i][j][0] = checkImage0[i][j][1] =
+                              checkImage0[i][j][2] = c;
+      checkImage0[i][j][3] = 255;
+}}
 
 void initTextures()
 {
   
     
   // cv::Mat img = cv::imread(  MY_RES_PATH+ (std::string )"/res/images/logoIUT.png", cv::IMREAD_UNCHANGED );
-  cv::Mat img = cv::imread(  MY_RES_PATH+ (std::string )"/res/images/numbers.png", cv::IMREAD_UNCHANGED );
+  // cv::Mat img = cv::imread(  MY_RES_PATH+ (std::string )"/res/images/mur.png", cv::IMREAD_UNCHANGED );
+  // cv::Mat img = cv::imread(  MY_RES_PATH+ (std::string )"/res/images/numbers.png", cv::IMREAD_UNCHANGED );
  
+  // utiliser une image de damier avec makeCheckImage
+  makeCheckImage();
+  cv::Mat img = cv::Mat(256, 256, CV_8UC4, checkImage0);
+
   unsigned int texture[1];
 
   glGenTextures( 1, texture );
@@ -449,7 +466,7 @@ glutInitContextVersion( 3, 2 );
     initShaders();
     initVAOs();
 initTextures();
-    // uncube.init();
+    uncube.init();
     
     glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
 
