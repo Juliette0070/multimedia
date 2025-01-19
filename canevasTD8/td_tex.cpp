@@ -375,12 +375,11 @@ void initTextures()
   
     
   // cv::Mat img = cv::imread(  MY_RES_PATH+ (std::string )"/res/images/logoIUT.png", cv::IMREAD_UNCHANGED );
-  // cv::Mat img = cv::imread(  MY_RES_PATH+ (std::string )"/res/images/mur.png", cv::IMREAD_UNCHANGED );
+  cv::Mat img = cv::imread(  MY_RES_PATH+ (std::string )"/res/images/mur.png", cv::IMREAD_UNCHANGED );
   // cv::Mat img = cv::imread(  MY_RES_PATH+ (std::string )"/res/images/numbers.png", cv::IMREAD_UNCHANGED );
- 
-  // utiliser une image de damier avec makeCheckImage
-  makeCheckImage();
-  cv::Mat img = cv::Mat(256, 256, CV_8UC4, checkImage0);
+
+  // makeCheckImage();
+  // cv::Mat img = cv::Mat(256, 256, CV_8UC4, checkImage0);
 
   unsigned int texture[1];
 
