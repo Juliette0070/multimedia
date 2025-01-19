@@ -185,72 +185,36 @@ void initVAOs()
 
      };
     
-  
-    
-  //   std::vector< float > texcoords = {
-  //       0.0f, 0.f,
-  //       0.0f, 1.f,
-  //       1.0f, 0.0f,
-  //       1.f, 1.f,
-        
-  //       0.0f, 0.f,
-  //       0.0f, 1.f,
-  //       1.0f, 0.0f,
-  //       1.f, 1.f,
-        
-  //       0.0f, 0.f,
-  //       0.0f, 1.f,
-  //       1.0f, 0.0f,
-  //       1.f, 1.f,
-        
-  //  // ajouter les coordonnées de texture pour les 3 faces manquantes
-
-  //       0.0f, 0.f,
-  //       0.0f, 1.f,
-  //       1.0f, 0.0f,
-  //       1.f, 1.f,
-
-  //       0.0f, 0.f,
-  //       0.0f, 1.f,
-  //       1.0f, 0.0f,
-  //       1.f, 1.f,
-
-  //       0.0f, 0.f,
-  //       0.0f, 1.f,
-  //       1.0f, 0.0f,
-  //       1.f, 1.f,
-  //    };
-    
     std::vector< float > texcoords = {
-        0.25f, 0.0f,
-        0.25f, 0.25f,
-        0.5f, 0.0f,
-        0.5f, 0.25f,
+        0.0, 0.0f,
+        0.0, 1.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
 
-        0.25f, 0.5f,
-        0.25f, 0.75f,
-        0.5f, 0.5f,
-        0.5f, 0.75f,
+        0.0, 0.0f,
+        0.0, 1.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
 
-        0.5f, 0.25f,
-        0.5f, 0.5f,
-        0.75f, 0.25f,
-        0.75f, 0.5f,
+        0.0, 0.0f,
+        0.0, 1.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
 
-        0.0f, 0.25f,
-        0.0f, 0.5f,
-        0.25f, 0.25f,
-        0.25f, 0.5,
+        0.0, 0.0f,
+        0.0, 1.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
 
-        0.25f, 0.75f,
-        0.25f, 1.0f,
-        0.5f, 0.75f,
-        0.5f, 1.0f,
+        0.0, 0.0f,
+        0.0, 1.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
 
-        0.25f, 0.25f,
-        0.25f, 0.5f,
-        0.5f, 0.25f,
-        0.5f, 0.5f,
+        0.0, 0.0f,
+        0.0, 1.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
      };
 
   
@@ -396,7 +360,7 @@ void initShaders()
 GLubyte checkImage0[256][256][4];
 void makeCheckImage(void){
   GLubyte c;
-  int cellSize = 256/32;
+  int cellSize = 256/8;
   for(int i=0; i<256; i++)
     for(int j=0; j<256; j++) {
       // c = ((((i&0x20)==0)^((j&0x20))==0))*255;
@@ -466,7 +430,7 @@ glutInitContextVersion( 3, 2 );
     initShaders();
     initVAOs();
 initTextures();
-    uncube.init();
+    // uncube.init();
     
     glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
 
