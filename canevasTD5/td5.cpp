@@ -63,9 +63,7 @@ glm::mat4 model;
 glm::mat4 view;
 glm::mat4 proj;
 
-float angle = 0.0f;
-float scale = 0.0f;
-float inc = 0.1f;
+float inc = 1.0f;
 
 unsigned int vaoids[1];
 
@@ -201,23 +199,6 @@ void idle()
         maillages[i].angle += 0.01f;
         if (maillages[i].angle >= 360.0f){maillages[i].angle = 0.0f;}
     }
-    // angle += 0.01f;
-    // if( angle >= 360.0f )
-    // {
-    //     angle = 0.0f;
-    // }
-
-//    if( scale <= 0.0f )
-//    {
-//        inc = 0.1f;
-//    }
-//    else if( scale > 2.0f )
-//    {
-//        inc = -0.1f;
-//    }
-//
-//    scale += inc;
-
     glutPostRedisplay();
 }
 
@@ -235,20 +216,16 @@ void special( int key, int x, int y )
     switch( key )
     {
         case GLUT_KEY_LEFT:
-            // eye[ 0 ] -= 0.1f;
-            globalcamera.Position -= globalcamera.Right * globalcamera.MovementSpeed;
+            yawRate = -inc/2;
             break;
         case GLUT_KEY_RIGHT:
-            // eye[ 0 ] += 0.1f;
-            globalcamera.Position += globalcamera.Right * globalcamera.MovementSpeed;
+            yawRate = inc/2;
             break;
         case GLUT_KEY_UP:
-            // eye[ 2 ] -= 0.1f;
-            globalcamera.Position += globalcamera.Front * globalcamera.MovementSpeed;
+            pitchRate = inc/2;
             break;
         case GLUT_KEY_DOWN:
-            // eye[ 2 ] += 0.1f;
-            globalcamera.Position -= globalcamera.Front * globalcamera.MovementSpeed;
+            pitchRate = -inc/2;
             break;
     }
     glutPostRedisplay();
@@ -259,12 +236,12 @@ void specialUp( int key, int x, int y )
     switch( key )
     {
         case GLUT_KEY_LEFT:
-            break;
         case GLUT_KEY_RIGHT:
+            yawRate = 0.0f;
             break;
         case GLUT_KEY_UP:
-            break;
         case GLUT_KEY_DOWN:
+            pitchRate = 0.0f;
             break;
     }
     glutPostRedisplay();
@@ -272,51 +249,53 @@ void specialUp( int key, int x, int y )
 
 void keyboard(unsigned char key, int x, int y) {
     switch (key) {
-        case 'q':
-        case 'Q':
-            // angle += 0.1f;
+        case 'g':
+        case 'G':
             for (int i = 0; i < NBMESHES; i++){maillages[i].angle += 0.05f;}
             break;
-        case 's':
-        case 'S':
-            // angle -= 0.1f;
+        case 'h':
+        case 'H':
             for (int i = 0; i < NBMESHES; i++){maillages[i].angle -= 0.10f;}
-            break;
-        // case 'e':
-        // case 'E':
-        //     scale += 0.0001f;
-        //     break;
-        // case 'd':
-        // case 'D':
-        //     if (scale > 0.0f)
-        //         scale -= 0.0001f;
-        //     break;
-        case 'r':
-        case 'R':
-            // eye[ 1 ] += 0.1f;
-            break;
-        case 'f':
-        case 'F':
-            // eye[ 1 ] -= 0.1f;
             break;
         // espace
         case 32:
-            // angle = 0.0f;
             for (int i = 0; i < NBMESHES; i++){maillages[i].angle = 0.0f;}
             break;
         case 'w':
         case 'W':
-            yawRate = inc;
+            globalcamera.MovementSpeed = inc;
             break;
-        case 'x':
-        case 'X':
-            yawRate = -inc;
+        case 's':
+        case 'S':
+            globalcamera.MovementSpeed = -inc;
             break;
-        case 'a':
-        case 'A':
+        case 'q':
+        case 'Q':
+            // décaler vers la gauche
+            globalcamera.Position -= globalcamera.Right * (inc/10);
             break;
-        case 'z':
-        case 'Z':
+        case 'd':
+        case 'D':
+            // décaler vers la droite
+            globalcamera.Position += globalcamera.Right * (inc/10);
+            break;
+    }
+    glutPostRedisplay();
+}
+
+void keyboardUp(unsigned char key, int x, int y) {
+    switch (key) {
+        case 'w':
+        case 'W':
+        case 's':
+        case 'S':
+            globalcamera.MovementSpeed = 0.0f;
+            break;
+        case 'q':
+        case 'Q':
+        case 'd':
+        case 'D':
+            globalcamera.MovementSpeed = 0.0f;
             break;
     }
     glutPostRedisplay();
@@ -394,8 +373,7 @@ maillage initVAOs( shaderProg shader, const std::string filename )
 
     // calcul du coefficient de mise à l'échelle
 
-    scale = 1.0f/fmax(dx, fmax(dy, dz));
-    std::cout<<scale;
+    float scale = 1.0f/fmax(dx, fmax(dy, dz));
 
     // Calcul des normales.
     for( std::size_t i = 0 ; i < indices.size() ; i+=3 )
@@ -610,6 +588,7 @@ glutInitContextVersion( 3, 2 );
     glutSpecialFunc( special );
     glutSpecialUpFunc(specialUp);
     glutKeyboardFunc(keyboard); // Assigner la gestion des touches classiques
+    glutKeyboardUpFunc(keyboardUp); // Assigner la gestion des touches classiques
 
     // Initialisation de la bibliothèque GLEW.
 #if not defined(__APPLE__)
