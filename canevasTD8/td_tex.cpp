@@ -187,34 +187,34 @@ void initVAOs()
     
     std::vector< float > texcoords = {
         0.0, 0.0f,
-        0.0, 2.0f,
-        2.0f, 0.0f,
-        2.0f, 2.0f,
+        0.0, 1.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
 
         0.0, 0.0f,
-        0.0, 2.0f,
-        2.0f, 0.0f,
-        2.0f, 2.0f,
+        0.0, 1.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
 
         0.0, 0.0f,
-        0.0, 2.0f,
-        2.0f, 0.0f,
-        2.0f, 2.0f,
+        0.0, 1.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
 
         0.0, 0.0f,
-        0.0, 2.0f,
-        2.0f, 0.0f,
-        2.0f, 2.0f,
+        0.0, 1.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
 
         0.0, 0.0f,
-        0.0, 2.0f,
-        2.0f, 0.0f,
-        2.0f, 2.0f,
+        0.0, 1.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
 
         0.0, 0.0f,
-        0.0, 2.0f,
-        2.0f, 0.0f,
-        2.0f, 2.0f,
+        0.0, 1.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
      };
 
   
@@ -375,11 +375,12 @@ void initTextures()
   
     
   // cv::Mat img = cv::imread(  MY_RES_PATH+ (std::string )"/res/images/logoIUT.png", cv::IMREAD_UNCHANGED );
-  cv::Mat img = cv::imread(  MY_RES_PATH+ (std::string )"/res/images/mur.png", cv::IMREAD_UNCHANGED );
+  // cv::Mat img = cv::imread(  MY_RES_PATH+ (std::string )"/res/images/mur.png", cv::IMREAD_UNCHANGED );
   // cv::Mat img = cv::imread(  MY_RES_PATH+ (std::string )"/res/images/numbers.png", cv::IMREAD_UNCHANGED );
-
-  // makeCheckImage();
-  // cv::Mat img = cv::Mat(256, 256, CV_8UC4, checkImage0);
+ 
+  // utiliser une image de damier avec makeCheckImage
+  makeCheckImage();
+  cv::Mat img = cv::Mat(256, 256, CV_8UC4, checkImage0);
 
   unsigned int texture[1];
 
@@ -431,7 +432,7 @@ glutInitContextVersion( 3, 2 );
     initShaders();
     initVAOs();
 initTextures();
-    uncube.init();
+    // uncube.init();
     
     glClearColor( 0.0f, 0.0f, 0.0f, 0.0f );
 
