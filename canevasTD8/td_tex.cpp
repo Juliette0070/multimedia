@@ -382,20 +382,35 @@ void initTextures()
   makeCheckImage();
   cv::Mat img = cv::Mat(256, 256, CV_8UC4, checkImage0);
 
-  unsigned int texture[1];
+  // gérer une deuxieme texture
+  cv::Mat img2 = cv::imread(  MY_RES_PATH+ (std::string )"/res/images/mur.png", cv::IMREAD_UNCHANGED );
 
-  glGenTextures( 1, texture );
-  glActiveTexture( GL_TEXTURE0  );
-  glBindTexture( GL_TEXTURE_2D, texture[0] );
+  unsigned int texture[2]; // Tableau pour les deux textures
+
+  // Générer les deux textures
+  glGenTextures(2, texture);  // Générer deux textures
+
+  // Première texture
+  glActiveTexture(GL_TEXTURE0);  // Activer l'unité de texture 0
+  glBindTexture(GL_TEXTURE_2D, texture[0]);  // Lier la première texture
   unsigned int tex = glGetUniformLocation(progid, "tex");
-  glUniform1i(tex, 0);
-  glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT );
-  glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT );
-  glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
-  glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img.rows, img.cols, 0, GL_BGRA,GL_UNSIGNED_BYTE,img.data);
-        
-   
+  glUniform1i(tex, 0);  // Associer la première texture à l'unité GL_TEXTURE0
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img.cols, img.rows, 0, GL_BGRA, GL_UNSIGNED_BYTE, img.data);
+
+  // Deuxième texture
+  glActiveTexture(GL_TEXTURE1);  // Activer l'unité de texture 1
+  glBindTexture(GL_TEXTURE_2D, texture[1]);  // Lier la deuxième texture
+  unsigned int tex2 = glGetUniformLocation(progid, "tex2");
+  glUniform1i(tex2, 1);  // Associer la deuxième texture à l'unité GL_TEXTURE1
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+  glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, img2.cols, img2.rows, 0, GL_BGRA, GL_UNSIGNED_BYTE, img2.data);
 }
 
 
